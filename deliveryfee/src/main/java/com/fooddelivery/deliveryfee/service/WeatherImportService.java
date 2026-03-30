@@ -2,8 +2,10 @@ package com.fooddelivery.deliveryfee.service;
 
 import com.fooddelivery.deliveryfee.entity.WeatherObservation;
 import com.fooddelivery.deliveryfee.repository.WeatherObservationRepository;
+import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -44,6 +46,15 @@ public class WeatherImportService {
     }
 
     /**
+     * Initialize by importing weather data on startup.
+     */
+    @PostConstruct
+    public void initializeWeatherData() {
+        log.info("Initializing weather data on startup");
+        importWeatherData();
+    }
+
+    /**
      * Downloads the latest weather observations and saves them to the database.
      *
      * <p>Called by the scheduled cron job in
@@ -81,7 +92,7 @@ public class WeatherImportService {
         }
     }
 
-    private List<WeatherObservation> parseObservations(Document doc) {
+    private @NonNull List<WeatherObservation> parseObservations(Document doc) {
         Instant timestamp = parseTimestamp(doc);
         NodeList stations = doc.getElementsByTagName("station");
         List<WeatherObservation> result = new ArrayList<>();
