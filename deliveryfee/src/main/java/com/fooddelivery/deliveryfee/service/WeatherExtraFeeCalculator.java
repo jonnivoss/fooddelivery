@@ -74,7 +74,7 @@ public class WeatherExtraFeeCalculator {
      * @param vehicleType  the courier's vehicle type
      * @param observation  the most recent weather observation for the city
      * @return wind speed extra fee in euros
-     * @throws VehicleUsageForbiddenException if wind speed exceeds 20 m/s and vehicle is a bike
+     * @throws VehicleUsageForbiddenException if wind speed exceeds 20 m/s
      */
     public double calculateWindSpeedFee(VehicleType vehicleType, WeatherObservation observation) {
         if (vehicleType != VehicleType.BIKE) {
@@ -87,7 +87,7 @@ public class WeatherExtraFeeCalculator {
         }
 
         if (windSpeed > MAX_ALLOWED_WIND_SPEED) {
-            throw new VehicleUsageForbiddenException("wind speed " + windSpeed + " m/s exceeds 20 m/s");
+            throw new VehicleUsageForbiddenException("Usage of selected vehicle type is forbidden");
         }
         if (windSpeed >= MODERATE_WIND_THRESHOLD) {
             return MODERATE_WIND_FEE;
@@ -124,7 +124,7 @@ public class WeatherExtraFeeCalculator {
         String normalized = phenomenon.toLowerCase();
 
         if (isForbiddenPhenomenon(normalized)) {
-            throw new VehicleUsageForbiddenException("weather phenomenon '" + phenomenon + "' is dangerous");
+            throw new VehicleUsageForbiddenException("Usage of selected vehicle type is forbidden");
         }
         if (isSnowOrSleet(normalized)) {
             return SNOW_SLEET_PHENOMENON_FEE;

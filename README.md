@@ -166,7 +166,7 @@ curl "http://localhost:8080/api/v1/delivery-fee?city=TALLINN&vehicleType=BIKE"
   "timestamp": "2026-03-30T20:10:20.000Z",
   "status": 422,
   "error": "Unprocessable Entity",
-  "message": "BIKE usage is forbidden in current weather conditions (extreme wind)"
+  "message": "Usage of selected vehicle type is forbidden"
 }
 ```
 
@@ -182,21 +182,24 @@ curl "http://localhost:8080/api/v1/delivery-fee?city=TALLINN&vehicleType=BIKE"
 
 ### Weather Surcharges
 
-#### Temperature Fee
-- **Car:** No surcharge
-- **Scooter/Bike (T ≤ 0°C):** +1.00€
-- **Car (T < -10°C):** +1.00€
+#### Air Temperature Extra Fee (ATEF)
+- **Applies to:** Scooter and Bike only
+- **Temperature < -10°C:** +1.00€
+- **-10°C ≤ Temperature ≤ 0°C:** +0.50€
+- **Temperature > 0°C:** No surcharge
 
-#### Wind Speed Fee
-- **Bike (V ≥ 20 m/s):** +0.50€
-- **Scooter (V ≥ 10 m/s):** +0.50€
-- **Car:** No surcharge
+#### Wind Speed Extra Fee (WSEF)
+- **Applies to:** Bike only
+- **10 m/s ≤ Wind Speed ≤ 20 m/s:** +0.50€
+- **Wind Speed > 20 m/s:** ❌ **Usage of selected vehicle type is forbidden**
+- **Wind Speed < 10 m/s:** No surcharge
 
-#### Weather Phenomenon Fee
-- **Glaze/Black ice (all vehicles):** +0.50€
-- **Thunderstorm/Hail (all vehicles):** +1.00€
-- **Snow (all vehicles):** +0.50€
-- **Rain (all vehicles):** +0.00€
+#### Weather Phenomenon Extra Fee (WPEF)
+- **Applies to:** Scooter and Bike only
+- **Snow or Sleet:** +1.00€
+- **Rain:** +0.50€
+- **Glaze, Hail, or Thunder:** ❌ **Usage of selected vehicle type is forbidden**
+- **Clear/Other:** No surcharge
 
 ### Vehicle Restrictions
 
